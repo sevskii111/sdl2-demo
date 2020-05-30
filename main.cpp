@@ -126,8 +126,8 @@ int main(int argc, char *args[])
         SDL_Event e;
 
         //Clear screen
-        SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-        SDL_RenderClear(gRenderer);
+
+        bool drawRect = false;
 
         //While application is running
         while (!quit)
@@ -143,8 +143,7 @@ int main(int argc, char *args[])
                 }
                 else if (e.type == SDL_KEYDOWN)
                 {
-                    SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-
+                    printf("%d\n", e.key.keysym.sym);
                     //Select surfaces based on key press
                     switch (e.key.keysym.sym)
                     {
@@ -152,12 +151,21 @@ int main(int argc, char *args[])
                         quit = true;
                         break;
                     case SDLK_UP:
-                        SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
-                        SDL_RenderFillRect(gRenderer, &fillRect);
+                        drawRect = true;
                     default:
                         break;
                     }
                 }
+            }
+
+            SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            SDL_RenderClear(gRenderer);
+
+            if (drawRect)
+            {
+                SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
+                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
+                SDL_RenderFillRect(gRenderer, &fillRect);
             }
 
             //Render green outlined quad
